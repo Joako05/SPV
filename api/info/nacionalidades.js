@@ -3,9 +3,9 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {idPersona} = req.query;
+    const {nombreNac} = req.query;
     
-    const sql = "SELECT * FROM Administradores";
+    const sql = "SELECT * FROM nacionalidades";
     conexion.query(sql, function(error, result){
         if (error) {
             console.error(error);
@@ -13,21 +13,21 @@ router.get("/", function(req, res, next){
         }
         res.json ({
             status: "ok",
-            administradores: result
+            nacionalidades: result
         })
     });
     })
 
     router.get("/:id", function(req, res, next){
-        res.send(`Ruta de administradores id ${req.params.id}`);
+        res.send(`Ruta de nacionalidades id ${req.params.id}`);
         })
 
 router.post("/", function (req, res, next){
-    const { idPersona } = req.body;
+    const { nombreNac } = req.body;
         
-    const sql = `INSERT INTO Administradores (idPersona) VALUES (?)`
+    const sql = `INSERT INTO nacionalidades (nombreNac) VALUES (?)`
         
-        conexion.query(sql, [idPersona], function(error, result){
+        conexion.query(sql, [nombreNac], function(error, result){
                 if (error) {
                     console.error(error);
                     return res.send("Ocurrio un error");
@@ -37,13 +37,13 @@ router.post("/", function (req, res, next){
 })
 
 router.put("/", function(req, res, next){
-    const { idAdministrador } = req.query;
-    const { idPersona } = req.body;
+    const { idNac } = req.query;
+    const { nombreNac } = req.body;
 
-    const sql = `UPDATE Administradores SET idPersona = ? WHERE idAdministrador = ?`;
+    const sql = `UPDATE nacionalidades SET nombreNac = ? WHERE idNac = ?`;
     conexion.query(
         sql,
-        [idPersona, idAdministrador],
+        [nombreNac, idNac],
         function(error,result){
             if (error) {
                 console.error(error);
@@ -57,9 +57,9 @@ router.put("/", function(req, res, next){
 router.delete("/", function(req, res, next){
     const { id } = req.query;
 
-    const sql = "DELETE FROM Administradores WHERE idAdministrador = ?";
+    const sql = "DELETE FROM nacionalidades WHERE idNac = ?";
 
-    conexion.query(sql, [idAdministrador], function(error, result){
+    conexion.query(sql, [idNac], function(error, result){
         if(error) {
             console.error(error);
             return res.status(500).send("Ocurrio un error");
