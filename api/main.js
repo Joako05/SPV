@@ -8,8 +8,9 @@ const estudiantesRouter = require('./roles/estudiantes');
 const preceptoresRouter = require('./roles/preceptores');
 const profesoresRouter = require('./roles/profesores');
 const responsablesRouter = require('./roles/responsable');
-//libroTemas
-
+//educacion
+const materiasRouter = require('./educacion/materias');
+const librotemasRouter = require('./educacion/libroTemas');
 //horarios
 const c_m_hRouter = require('./horarios/c_m_h');
 const DiasSemanaRouter = require('./horarios/diasSemana');
@@ -44,6 +45,8 @@ router.use('/meses', mesesRouter);
 router.use('/años', añosRouter);
 router.use('/divisiones', divisionesRouter);
 router.use('/cursos', cursosRouter);
-
+//educacion
+router.use('/materias', materiasRouter);
+router.use('/librotemas', librotemasRouter);
 
 module.exports = router;

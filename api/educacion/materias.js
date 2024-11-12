@@ -5,7 +5,7 @@ const {conexion} = require('../../bd/conexion');
 router.get("/", function(req, res, next){
     const {nombre_materia} = req.query;
     
-    const sql = "SELECT * FROM Materias";
+    const sql = "SELECT * FROM materias";
     conexion.query(sql, function(error, result){
         if (error) {
             console.error(error);
@@ -25,7 +25,7 @@ router.get("/", function(req, res, next){
 router.post("/", function (req, res, next){
     const { nombre_materia } = req.body;
         
-    const sql = `INSERT INTO Materias (nombre_materia) VALUES (?)`
+    const sql = `INSERT INTO materias (nombre_materia) VALUES (?)`
         
         conexion.query(sql, [nombre_materia], function(error, result){
                 if (error) {
@@ -40,7 +40,7 @@ router.put("/", function(req, res, next){
     const { id_materia } = req.query;
     const { nombre_materia } = req.body;
 
-    const sql = `UPDATE Materias SET nombre_materia = ? WHERE id_materia = ?`;
+    const sql = `UPDATE materias SET nombre_materia = ? WHERE id_materia = ?`;
     conexion.query(
         sql,
         [nombre_materia, id_materia],
@@ -57,7 +57,7 @@ router.put("/", function(req, res, next){
 router.delete("/", function(req, res, next){
     const { id_materia } = req.query;
 
-    const sql = "DELETE FROM Materias WHERE id_materia = ?";
+    const sql = "DELETE FROM materias WHERE id_materia = ?";
 
     conexion.query(sql, [id_materia], function(error, result){
         if(error) {
