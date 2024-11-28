@@ -3,8 +3,55 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {idCurso, id_materia, idDia, idModulo} = req.query;
-    
+    const {id, idCurso, id_materia, idDia, idModulo} = req.query;
+    if (id){
+    const sql = "SELECT * FROM Cursos_Materias_Horarios WHERE id = ?";
+    conexion.query(sql, [id], function(error, result){
+        if (error)return res.send("Ocurrio un error");
+        res.json ({
+            status: "ok",
+            TablaC_M_H: result
+        })
+    })}
+    if(idCurso){
+        const sql = "SELECT * FROM Cursos_Materias_Horarios WHERE idCurso = ? "
+        conexion.query(sql, [idCurso], function (error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok",
+                cursos: result
+            });
+        })}
+    if(id_materia){
+        const sql = "SELECT * FROM Cursos_Materias_Horarios WHERE id_materia = ? "
+        conexion.query(sql, [id_materia], function (error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok",
+                materias: result
+            });
+        })}
+    if(idDia){
+        const sql = "SELECT * FROM Cursos_Materias_Horarios WHERE idDia = ? "
+        conexion.query(sql, [idDia], function (error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok",
+                Dias: result
+            });
+        })}
+    if (idModulo){
+        const sql = "SELECT * FROM Cursos_Materias_Horarios WHERE idModulo = ? "
+        conexion.query(sql, [idModulo], function (error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok",
+                materias: result
+            });
+        })}
+})
+
+router.get("/", function(req, res, next){
     const sql = "SELECT * FROM Cursos_Materias_Horarios";
     conexion.query(sql, function(error, result){
         if (error) {
@@ -16,11 +63,7 @@ router.get("/", function(req, res, next){
             TablaC_M_H: result
         })
     });
-    })
-
-    router.get("/:id", function(req, res, next){
-        res.send(`Ruta de dias de la semana id ${req.params.id}`);
-        })
+})
 
 router.post("/", function (req, res, next){
     const { idCurso, id_materia, idDia, idModulo } = req.body;

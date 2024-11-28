@@ -3,7 +3,6 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {nombreNac} = req.query;
     
     const sql = "SELECT * FROM localidades";
     conexion.query(sql, function(error, result){
@@ -16,18 +15,27 @@ router.get("/", function(req, res, next){
             localidades: result
         })
     });
-    })
+})
 
-    router.get("/:id", function(req, res, next){
-        res.send(`Ruta de localidades id ${req.params.id}`);
-        })
+router.get("/:id", function(req, res, next){
+    const { id } = req.params;
+    const sql = "SELECT * FROM localidades WHERE idL = ?";
+        conexion.query(sql, [id], function(error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok", 
+                localidades: result 
+            });
+        });
+
+})
 
 router.post("/", function (req, res, next){
     const { nombre } = req.body;
         
     const sql = `INSERT INTO localidades (nombre) VALUES (?)`
         
-        conexion.query(sql, [nombreNac], function(error, result){
+        conexion.query(sql, [nombre], function(error, result){
                 if (error) {
                     console.error(error);
                     return res.send("Ocurrio un error");
@@ -55,7 +63,7 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { id } = req.query;
+    const { idL } = req.query;
 
     const sql = "DELETE FROM localidades WHERE idL = ?";
 

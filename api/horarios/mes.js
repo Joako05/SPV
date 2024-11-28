@@ -3,7 +3,6 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {nombreMes} = req.query;
     
     const sql = "SELECT * FROM Meses";
     conexion.query(sql, function(error, result){

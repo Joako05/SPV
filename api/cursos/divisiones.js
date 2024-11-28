@@ -3,7 +3,6 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {Division} = req.query;
     
     const sql = "SELECT * FROM divisiones";
     conexion.query(sql, function(error, result){
@@ -18,9 +17,17 @@ router.get("/", function(req, res, next){
     });
     })
 
-    router.get("/:id", function(req, res, next){
-        res.send(`Ruta de divisiones id ${req.params.id}`);
-        })
+router.get("/:id", function(req, res, next){
+        const { id } = req.params;
+        const sql = "SELECT * FROM divisiones WHERE idDivision = ?";
+            conexion.query(sql, [id], function(error, result) {
+                if (error)return res.status(500).send("Ocurrió un error");
+                res.json({
+                    status: "ok", 
+                    Divisiones: result 
+                });
+            });
+})
 
 router.post("/", function (req, res, next){
     const { Division } = req.body;

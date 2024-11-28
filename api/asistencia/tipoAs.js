@@ -3,7 +3,6 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {nombreAs, descrAs} = req.query;
     
     const sql = "SELECT * FROM tipoAs";
     conexion.query(sql, function(error, result){
@@ -16,11 +15,19 @@ router.get("/", function(req, res, next){
             TipoAsistencia: result
         })
     });
-    })
+})
 
-    router.get("/:id", function(req, res, next){
-        res.send(`Ruta de tipos de asistencias id ${req.params.id}`);
-        })
+router.get("/:id", function(req, res, next){
+    const { id } = req.params;
+    const sql = "SELECT * FROM tipoAs WHERE id_tipoAs = ?";
+        conexion.query(sql, [id], function(error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok", 
+                DiaAsistencia: result 
+            });
+        });
+});
 
 router.post("/", function (req, res, next){
     const { nombreAs, descrAs } = req.body;

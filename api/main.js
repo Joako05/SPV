@@ -9,24 +9,29 @@ const preceptoresRouter = require('./roles/preceptores');
 const profesoresRouter = require('./roles/profesores');
 const responsablesRouter = require('./roles/responsable');
 //educacion
+const informesRouter = require('./educacion/informes');
 const materiasRouter = require('./educacion/materias');
 const librotemasRouter = require('./educacion/libroTemas');
 //horarios
 const c_m_hRouter = require('./horarios/c_m_h');
-const DiasSemanaRouter = require('./horarios/diasSemana');
+const diasSemanaRouter = require('./horarios/diasSemana');
 const mesesRouter = require('./horarios/Mes');
 //cursos
 const añosRouter = require('./cursos/año');
 const divisionesRouter = require('./cursos/divisiones');
 const cursosRouter = require('./cursos/curso');
 //asistencia 
-
+const diasAsRouter = require('./asistencia/diasAs');
+const tipoAsRouter = require('./asistencia/tipoAs');
 //info
 const localidadesRouter = require('./info/localidades');
 const nacionalidadesRouter = require('./info/nacionalidades');
 const profesionesRouter = require('./info/profesiones');
 
 router.use('/personas', personasRouter);
+//asistencia
+router.use('/diasAs', diasAsRouter);
+router.use('/tipoAs', tipoAsRouter);
 //roles
 router.use('/administradores', adminRouter);
 router.use('/estudiantes', estudiantesRouter);
@@ -39,13 +44,14 @@ router.use('/nacionalidades', nacionalidadesRouter);
 router.use('/profesiones', profesionesRouter);
 //horarios
 router.use('/c_m_h', c_m_hRouter);
-router.use('/DiasSemana', DiasSemanaRouter);
+router.use('/diasSemana', diasSemanaRouter);
 router.use('/meses', mesesRouter);
 //cursos
 router.use('/años', añosRouter);
 router.use('/divisiones', divisionesRouter);
 router.use('/cursos', cursosRouter);
 //educacion
+router.use('/informes', informesRouter);
 router.use('/materias', materiasRouter);
 router.use('/librotemas', librotemasRouter);
 
