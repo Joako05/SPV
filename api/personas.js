@@ -15,11 +15,11 @@ router.get("/", function(req, res, next){
 })
 
 router.post("/", function (req, res, next){
-    const { nombre, apellido, fecha_nacimiento, lugar_nac, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac, idProfesion } = req.body;
+    const { nombre, apellido, fecha_nacimiento, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac, idProfesion } = req.body;
         
-    const sql = `INSERT INTO personas (nombre, apellido, fecha_nacimiento, lugar_nac, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac, idProfesion ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    const sql = `INSERT INTO personas (nombre, apellido, fecha_nacimiento, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac, idProfesion ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
         
-        conexion.query(sql, [nombre, apellido, fecha_nacimiento, lugar_nac, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac, idProfesion], function(error, result){
+        conexion.query(sql, [nombre, apellido, fecha_nacimiento, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac, idProfesion], function(error, result){
                 if (error) {
                     console.error(error);
                     return res.send("Ocurrio un error");
@@ -30,12 +30,12 @@ router.post("/", function (req, res, next){
 
 router.put("/", function(req, res, next){
     const { idPersona } = req.query;
-    const { nombre, apellido, fecha_nacimiento, lugar_nac, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac } = req.body;
+    const { nombre, apellido, fecha_nacimiento, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac } = req.body;
 
-    const sql = `UPDATE personas SET nombre = ?, apellido = ?, fecha_nacimiento = ?, lugar_nac = ?, domicilio = ?, telefono = ?, idLocalidad = ?, DNI = ?, telefono_trabajo = ?, idNac = ?, idProfesion = ?  WHERE idPersona = ?`;
+    const sql = `UPDATE personas SET nombre = ?, apellido = ?, fecha_nacimiento = ?, domicilio = ?, telefono = ?, idLocalidad = ?, DNI = ?, telefono_trabajo = ?, idNac = ?, idProfesion = ?  WHERE idPersona = ?`;
     conexion.query(
         sql,
-        [nombre, apellido, fecha_nacimiento, lugar_nac, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac, idProfesion, idPersona],
+        [nombre, apellido, fecha_nacimiento, domicilio, telefono, idLocalidad, DNI, telefono_trabajo, idNac, idProfesion, idPersona],
         function(error,result){
             if (error) {
                 console.error(error);

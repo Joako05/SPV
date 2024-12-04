@@ -2,6 +2,35 @@ const express = require('express');
 const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
+router.get("/buscar", function (req, res, next) {
+    const { idPreceptor, idCurso} = req.query;
+    
+    let Filtro = "WHERE ";
+
+    if (idPreceptor){
+        Filtro += "idPreceptor = " + idPreceptor;
+    } else{
+        
+        if (idCurso) {
+                Filtro += "idCurso = " + idCurso;
+        }
+    }
+    
+    const sql = "SELECT * FROM Preceptores ";
+    console.log(sql+Filtro);
+    conexion.query(sql + Filtro, function (error, result) {
+        if (error){
+            console.log(error)
+            return res.status(500).send("Ocurrió un error");
+        }
+        res.json({
+            status: "ok",
+            Preceptores: result
+        });
+    })
+});
+
+
 router.get("/", function(req, res, next){
     
     const sql = "SELECT * FROM Preceptores";
@@ -17,24 +46,13 @@ router.get("/", function(req, res, next){
     });
     })
 
-router.get("/:id", function(req, res, next){
-    const { id } = req.params;
-    const sql = "SELECT * FROM Preceptores WHERE idPreceptor = ?";
-        conexion.query(sql, [id], function(error, result) {
-            if (error)return res.status(500).send("Ocurrió un error");
-            res.json({
-                status: "ok", 
-                preceptor: result 
-            });
-        }); 
-})
 
 router.post("/", function (req, res, next){
-    const { idPersona } = req.body;
+    const { idPersona, idCurso } = req.body;
         
-    const sql = `INSERT INTO Preceptores (idPersona) VALUES (?)`
+    const sql = `INSERT INTO Preceptores (idPersona, idCurso) VALUES (?, ?)`
         
-        conexion.query(sql, [idPersona], function(error, result){
+        conexion.query(sql, [idPersona, idCurso], function(error, result){
                 if (error) {
                     console.error(error);
                     return res.send("Ocurrio un error");
@@ -45,12 +63,12 @@ router.post("/", function (req, res, next){
 
 router.put("/", function(req, res, next){
     const { idPreceptor } = req.query;
-    const { idPersona } = req.body;
+    const { idPersona, idCurso } = req.body;
 
-    const sql = `UPDATE Preceptores SET idPersona = ? WHERE idPreceptor = ?`;
+    const sql = `UPDATE Preceptores SET idPersona = ?, idCurso = ? WHERE idPreceptor = ?`;
     conexion.query(
         sql,
-        [idPersona, idPreceptor],
+        [idPersona, idCurso, idPreceptor],
         function(error,result){
             if (error) {
                 console.error(error);
@@ -62,7 +80,7 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { id } = req.query;
+    const { idPreceptor } = req.query;
 
     const sql = "DELETE FROM Preceptores WHERE idPreceptor = ?";
 

@@ -62,7 +62,7 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { id } = req.query;
+    const { idTipoAs } = req.query;
 
     const sql = "DELETE FROM tipoAs WHERE id_tipoAs = ?";
 

@@ -82,7 +82,7 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { id } = req.query;
+    const { idDA } = req.query;
 
     const sql = "DELETE FROM DiasAs WHERE idDA = ?";
 

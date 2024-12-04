@@ -62,7 +62,7 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { id } = req.query;
+    const { idProfesion } = req.query;
 
     const sql = "DELETE FROM nacionalidades WHERE idNac = ?";
 

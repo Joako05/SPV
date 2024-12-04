@@ -17,7 +17,7 @@ const c_m_hRouter = require('./horarios/c_m_h');
 const diasSemanaRouter = require('./horarios/diasSemana');
 const mesesRouter = require('./horarios/Mes');
 //cursos
-const añosRouter = require('./cursos/año');
+const aniosRouter = require('./cursos/anio');
 const divisionesRouter = require('./cursos/divisiones');
 const cursosRouter = require('./cursos/curso');
 //asistencia 
@@ -47,7 +47,7 @@ router.use('/c_m_h', c_m_hRouter);
 router.use('/diasSemana', diasSemanaRouter);
 router.use('/meses', mesesRouter);
 //cursos
-router.use('/años', añosRouter);
+router.use('/anios', aniosRouter);
 router.use('/divisiones', divisionesRouter);
 router.use('/cursos', cursosRouter);
 //educacion

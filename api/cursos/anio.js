@@ -30,10 +30,11 @@ router.get("/:id", function(req, res, next){
 })
 
 router.post("/", function (req, res, next){
+    const {Anio} = req.body;
         
     const sql = `INSERT INTO Anios (Anio) VALUES (?)`
-        
-        conexion.query(sql, [Año], function(error, result){
+    
+        conexion.query(sql, [Anio], function(error, result){
                 if (error) {
                     console.error(error);
                     return res.send("Ocurrio un error");
@@ -46,7 +47,7 @@ router.put("/", function(req, res, next){
     const { idAnio } = req.query;
     const { Anio } = req.body;
 
-    const sql = `UPDATE Años SET Año = ? WHERE idAño = ?`;
+    const sql = `UPDATE Anios SET Anio = ? WHERE idAnio = ?`;
     conexion.query(
         sql,
         [Anio, idAnio],
@@ -61,11 +62,11 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { idAño } = req.query;
+    const { idAnio } = req.query;
 
-    const sql = "DELETE FROM Años WHERE idAño = ?";
+    const sql = "DELETE FROM Anios WHERE idAnio = ?";
 
-    conexion.query(sql, [idAño], function(error, result){
+    conexion.query(sql, [idAnio], function(error, result){
         if(error) {
             console.error(error);
             return res.status(500).send("Ocurrio un error");
