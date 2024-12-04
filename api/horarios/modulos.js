@@ -3,7 +3,6 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {horas} = req.query;
     
     const sql = "SELECT * FROM Modulos";
     conexion.query(sql, function(error, result){
@@ -18,9 +17,17 @@ router.get("/", function(req, res, next){
     });
     })
 
-    router.get("/:id", function(req, res, next){
-        res.send(`Ruta de modulos id ${req.params.id}`);
-        })
+router.get("/:id", function(req, res, next){
+    const { id } = req.params;
+    const sql = "SELECT * FROM Modulos WHERE idModulo = ?";
+        conexion.query(sql, [id], function(error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok", 
+                Modulo: result 
+            });
+        });
+})
 
 router.post("/", function (req, res, next){
     const { horas } = req.body;
@@ -55,7 +62,7 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { id } = req.query;
+    const { idModulo } = req.query;
 
     const sql = "DELETE FROM Modulos WHERE idModulo = ?";
 

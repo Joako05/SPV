@@ -3,9 +3,8 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {Año} = req.query;
     
-    const sql = "SELECT * FROM Años";
+    const sql = "SELECT * FROM Anios";
     conexion.query(sql, function(error, result){
         if (error) {
             console.error(error);
@@ -18,16 +17,24 @@ router.get("/", function(req, res, next){
     });
     })
 
-    router.get("/:id", function(req, res, next){
-        res.send(`Ruta de años id ${req.params.id}`);
-        })
+router.get("/:id", function(req, res, next){
+    const { id } = req.params;
+    const sql = "SELECT * FROM Años WHERE idAnio = ?";
+        conexion.query(sql, [id], function(error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok", 
+                Años: result 
+            });
+        });
+})
 
 router.post("/", function (req, res, next){
-    const { Año } = req.body;
+    const {Anio} = req.body;
         
-    const sql = `INSERT INTO Materias (Año) VALUES (?)`
-        
-        conexion.query(sql, [Año], function(error, result){
+    const sql = `INSERT INTO Anios (Anio) VALUES (?)`
+    
+        conexion.query(sql, [Anio], function(error, result){
                 if (error) {
                     console.error(error);
                     return res.send("Ocurrio un error");
@@ -37,13 +44,13 @@ router.post("/", function (req, res, next){
 })
 
 router.put("/", function(req, res, next){
-    const { idAño } = req.query;
-    const { Año } = req.body;
+    const { idAnio } = req.query;
+    const { Anio } = req.body;
 
-    const sql = `UPDATE Años SET Año = ? WHERE idAño = ?`;
+    const sql = `UPDATE Anios SET Anio = ? WHERE idAnio = ?`;
     conexion.query(
         sql,
-        [Año, idAño],
+        [Anio, idAnio],
         function(error,result){
             if (error) {
                 console.error(error);
@@ -55,11 +62,11 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { idAño } = req.query;
+    const { idAnio } = req.query;
 
-    const sql = "DELETE FROM Años WHERE idAño = ?";
+    const sql = "DELETE FROM Anios WHERE idAnio = ?";
 
-    conexion.query(sql, [idAño], function(error, result){
+    conexion.query(sql, [idAnio], function(error, result){
         if(error) {
             console.error(error);
             return res.status(500).send("Ocurrio un error");

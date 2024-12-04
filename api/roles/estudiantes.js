@@ -3,7 +3,6 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {idPersona} = req.query;
     
     const sql = "SELECT * FROM Estudiantes";
     conexion.query(sql, function(error, result){
@@ -18,9 +17,17 @@ router.get("/", function(req, res, next){
     });
     })
 
-    router.get("/:id", function(req, res, next){
-        res.send(`Ruta de Estudiantes id ${req.params.id}`);
-        })
+router.get("/:id", function(req, res, next){
+    const { id } = req.params;
+    const sql = "SELECT * FROM Estudiantes WHERE idEstudiante = ?";
+        conexion.query(sql, [id], function(error, result) {
+            if (error)return res.status(500).send("Ocurrió un error");
+            res.json({
+                status: "ok", 
+                estudiantes: result 
+            });
+        });
+})
 
 router.post("/", function (req, res, next){
     const { idPersona } = req.body;
@@ -55,7 +62,7 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { id } = req.query;
+    const { idEstudiante } = req.query;
 
     const sql = "DELETE FROM Estudiantes WHERE idEstudiante = ?";
 

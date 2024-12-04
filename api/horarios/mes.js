@@ -3,7 +3,6 @@ const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
 router.get("/", function(req, res, next){
-    const {nombreMes} = req.query;
     
     const sql = "SELECT * FROM Meses";
     conexion.query(sql, function(error, result){
@@ -55,7 +54,7 @@ router.put("/", function(req, res, next){
 })
 
 router.delete("/", function(req, res, next){
-    const { id } = req.query;
+    const { idMes } = req.query;
 
     const sql = "DELETE FROM Meses WHERE idMes = ?";
 
