@@ -1,6 +1,7 @@
 const router = require('express').Router();
 //datos generales
 const personasRouter = require('./personas');
+const usuariosRouter = require('./usuario');
 
 //roles
 const adminRouter = require('./roles/admin');
@@ -29,6 +30,7 @@ const nacionalidadesRouter = require('./info/nacionalidades');
 const profesionesRouter = require('./info/profesiones');
 
 router.use('/personas', personasRouter);
+router.use('/usuarios', usuariosRouter);
 //asistencia
 router.use('/diasAs', diasAsRouter);
 router.use('/tipoAs', tipoAsRouter);
