@@ -30,11 +30,11 @@ router.get("/:id", function(req, res, next){
 })
 
 router.post("/", function (req, res, next){
-    const { idPersona } = req.body;
+    const { idPersona, id_materia, idCurso } = req.body;
         
-    const sql = `INSERT INTO Profesores (idPersona) VALUES (?)`
+    const sql = `INSERT INTO Profesores (idPersona, id_materia, idCurso) VALUES (?, ?, ?)`
         
-        conexion.query(sql, [idPersona], function(error, result){
+        conexion.query(sql, [idPersona, id_materia, idCurso], function(error, result){
                 if (error) {
                     console.error(error);
                     return res.send("Ocurrio un error");
@@ -45,12 +45,12 @@ router.post("/", function (req, res, next){
 
 router.put("/", function(req, res, next){
     const { idProfesor } = req.query;
-    const { idPersona } = req.body;
+    const { idPersona, id_materia, idCurso } = req.body;
 
-    const sql = `UPDATE Profesores SET idPersona = ? WHERE idProfesor = ?`;
+    const sql = `UPDATE Profesores SET idPersona = ?, id_materia = ?, idCurso = ? WHERE idProfesor = ?`;
     conexion.query(
         sql,
-        [idPersona, idProfesor],
+        [idPersona, id_materia, idCurso, idProfesor],
         function(error,result){
             if (error) {
                 console.error(error);

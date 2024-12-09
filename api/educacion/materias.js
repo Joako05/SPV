@@ -15,18 +15,18 @@ router.get("/", function(req, res, next){
             Materias: result
         })
     });
-    })
+    });
 
 router.get("/:id", function(req, res, next){
-    const { id } = req.params;
-    const sql = "SELECT * FROM materias WHERE id_materias = ?";
-        conexion.query(sql, [id], function(error, result) {
-            if (error)return res.status(500).send("Ocurrió un error");
-            res.json({
-                status: "ok", 
-                materias: result 
+        const { id } = req.params;
+        const sql = "SELECT * FROM materias WHERE id_materia = ?";
+            conexion.query(sql, [id], function(error, result) {
+                if (error)return res.status(500).send("Ocurrió un error");
+                res.json({
+                    status: "ok", 
+                    Materia: result 
+                });
             });
-     });
 })
 
 router.post("/", function (req, res, next){

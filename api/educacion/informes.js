@@ -2,48 +2,46 @@ const express = require('express');
 const router = express.Router();
 const {conexion} = require('../../bd/conexion');
 
-router.get("/", function(req, res, next){
-    const {idInforme, idEstudiante,	id_materia,	Nota, PrimerInf, SegInf, PrimerPerioFort, PrimerCuatr, TercerInf, CuartoInf, SegPerioFort, SegCuatri, PerioComDi,	PerioComFe, idCurso} = req.query;
+router.get("/buscar", function(req, res, next) {
+    const { idInforme, idEstudiante, id_materia, Nota, PrimerInf, SegInf, PrimerPerioFort, PrimerCuatr, TercerInf, CuartoInf, SegPerioFort, SegCuatri, PerioComDi, PerioComFe, idCurso } = req.query;
+    
+    let Filtro = "WHERE ";
+
     if (idInforme) {
-        const sql = "SELECT * FROM Informes WHERE idInforme = ?";
-        conexion.query(sql, [idInforme], function(error, result){
-         if (error)return res.send("Ocurrio un error");
-         res.json ({
+        Filtro += "idInforme = " + idInforme;
+    } else {
+        if (idEstudiante) {
+            Filtro += "idEstudiante = " + idEstudiante;
+        }
+        if (id_materia) {
+            if (idEstudiante) {
+                Filtro += " AND id_materia = " + id_materia;
+            } else {
+                Filtro += "id_materia = " + id_materia;
+            }
+        }
+        if (idCurso) {
+            if (idEstudiante || id_materia) {
+                Filtro += " AND idCurso = " + idCurso;
+            } else {
+                Filtro += "idCurso = " + idCurso;
+            }
+        }
+    }
+
+    const sql = "SELECT * FROM Informes ";
+    console.log(sql + Filtro);
+    conexion.query(sql + Filtro, function(error, result) {
+        if (error) {
+            console.error(error);
+            return res.status(500).send("Ocurrio un error");
+        }
+        res.json({
             status: "ok",
             Informes: result
-            });
-     })}
-    if (idEstudiante) {
-        const sql = "SELECT * FROM Informes WHERE idEstudiante = ?";
-        conexion.query(sql, [idEstudiante], function (error, result){
-            if (error) return res.status(500).send("Ocurrio un error");
-            res.json({
-                status: "ok",
-                Estudiantes: result
-            });
         });
-    }
-    if (id_materia) {
-        const sql = "SELECT * FROM Informes WHERE id_materia = ? "
-        conexion.query(sql, [id_materia], function(error, result){
-            if (error)return res.status(500).send("Ocurrio un error");
-            res.json({
-                status: "ok",
-                Materias: result
-            });
-        });
-    }
-    if (idCurso) {
-        const sql = "SELECT * FROM Informes WHERE idCurso = ? "
-        conexion.query(sql, [idCurso], function(error, result){
-            if(error)return res.status(500).send("Ocurrio un error");
-            res.json({
-                status:"ok",
-                Cursos: result
-            });
-        });
-    }
     });
+});
 
     router.get("/", function (req, res, next) {
         const sql = "SELECT * FROM Informes";

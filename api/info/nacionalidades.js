@@ -48,10 +48,7 @@ router.put("/", function(req, res, next){
     const { nombreNac } = req.body;
 
     const sql = `UPDATE nacionalidades SET nombreNac = ? WHERE idNac = ?`;
-    conexion.query(
-        sql,
-        [nombreNac, idNac],
-        function(error,result){
+    conexion.query(sql,[nombreNac, idNac], function(error, result){
             if (error) {
                 console.error(error);
                 res.status(500).send("ocurrio un error")
